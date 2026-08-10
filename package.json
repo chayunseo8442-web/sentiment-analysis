@@ -1,0 +1,22 @@
+{
+  "name": "sentiment-analysis-spec",
+  "version": "1.0.0",
+  "description": "OpenAI와 Supabase를 활용한 텍스트 감성 분석 웹 애플리케이션",
+  "main": "api/analyze.js",
+  "scripts": {
+    "start": "node server.js"
+  },
+  "keywords": [
+    "sentiment-analysis",
+    "openai",
+    "supabase",
+    "vercel"
+  ],
+  "author": "",
+  "license": "MIT",
+  "dependencies": {
+    "@supabase/supabase-js": "^2.45.0",
+    "dotenv": "^16.4.5",
+    "openai": "^4.55.0"
+  }
+}

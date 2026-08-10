@@ -1,0 +1,192 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>AI 텍스트 감성 분석기 | Sentiment AI</title>
+  <meta name="description" content="문장을 입력하면 AI가 감성을 긍정, 부정, 중립으로 정밀 분석하고 신뢰도와 판단 이유를 즉시 알려줍니다." />
+  
+  <!-- 웹폰트 (Google Fonts - Outfit & Noto Sans KR) 불러오기 -->
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Noto+Sans+KR:wght@300;400;500;700&family=Outfit:wght@400;600;800&display=swap" rel="stylesheet">
+  
+  <!-- 스타일시트 연결 -->
+  <link rel="stylesheet" href="styles.css" />
+</head>
+<body>
+  <!-- 상단 슬림 네비게이션 바 -->
+  <header class="navbar">
+    <div class="nav-container">
+      <a href="#" class="brand-logo">
+        <span class="logo-icon">✨</span>
+        <span class="logo-text">Sentiment<span class="highlight">AI</span></span>
+      </a>
+      <nav class="nav-links">
+        <a href="#hero" class="nav-link active">Explore</a>
+        <a href="#about" class="nav-link">Guide</a>
+        <a href="#privacy" class="nav-link">Privacy</a>
+      </nav>
+    </div>
+  </header>
+
+  <!-- 메인 히어로 섹션 -->
+  <main class="main-content">
+    <section id="hero" class="hero-section">
+      <div class="hero-container">
+        
+        <!-- 히어로 좌측: 헤드라인 및 입력 폼 영역 -->
+        <div class="hero-left">
+          <div class="category-pill">
+            <span class="sparkle-icon">⚡</span> AI TEXT SENTIMENT ANALYZER
+          </div>
+          
+          <h1 class="hero-title">
+            Understand the <span class="pink-accent">feeling</span><br />
+            behind your words.
+          </h1>
+          
+          <p class="hero-subtitle">
+            작성한 리뷰나 문장의 분위기를 AI가 빠르게 파악해 드립니다.<br />
+            <span class="security-note">🔒 개인정보나 비밀번호 등 민감한 정보는 입력하지 마세요.</span>
+          </p>
+
+          <!-- 텍스트 입력 카드 폼 -->
+          <div class="input-card">
+            <label for="text-input" class="sr-only">감성 분석을 위한 문장 입력</label>
+            <textarea
+              id="text-input"
+              class="text-input"
+              placeholder="오늘 경험한 서비스나 리뷰 문장을 자유롭게 입력해 보세요. (예: 오늘 배송이 정말 빠르고 서비스가 아주 친절했습니다.)"
+              maxlength="5000"
+              rows="4"
+            ></textarea>
+            
+            <div class="input-footer">
+              <span id="char-count" class="char-count">0 / 5,000자</span>
+              <button id="analyze-btn" class="pill-btn primary-btn">
+                <span class="btn-text">감성 분석하기</span>
+                <span class="btn-spinner hidden"></span>
+              </button>
+            </div>
+            
+            <!-- 클라이언트 입력 오류 메시지 표시 영역 -->
+            <p id="input-error" class="input-error-msg hidden" role="alert"></p>
+          </div>
+        </div>
+
+        <!-- 히어로 우측: 실시간 시각 카드리프릿 / 결과 미리보기 -->
+        <div class="hero-right">
+          <div class="preview-card-wrapper">
+            <div class="preview-card">
+              <div class="preview-badge-row">
+                <span class="preview-tag">분석 가이드</span>
+                <span class="preview-status">실시간 처리</span>
+              </div>
+              <h2 class="preview-heading">AI 감성 분석 시스템</h2>
+              <p class="preview-desc">
+                OpenAI NLP 모델 기반으로 문장의 은유, 뉘앙스, 긍/부정 단어를 복합적으로 분석하여 직관적인 피드백을 제공합니다.
+              </p>
+              
+              <div class="preview-features">
+                <div class="feature-item">
+                  <span class="feature-icon">🎯</span>
+                  <div class="feature-text">
+                    <strong>3가지 감성 분류</strong>
+                    <span>긍정(Positive), 부정(Negative), 중립(Neutral)</span>
+                  </div>
+                </div>
+                <div class="feature-item">
+                  <span class="feature-icon">📊</span>
+                  <div class="feature-text">
+                    <strong>확신 신뢰도 백분율</strong>
+                    <span>0~100% 범위의 확신 수치 산출</span>
+                  </div>
+                </div>
+                <div class="feature-item">
+                  <span class="feature-icon">💡</span>
+                  <div class="feature-text">
+                    <strong>한국어 근거 설명</strong>
+                    <span>사람이 쉽게 이해하는 판단 이유 제공</span>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+
+      </div>
+    </section>
+
+    <!-- 분석 결과 렌더링 섹션 (스크린 리더 용 aria-live 속성 부여) -->
+    <section id="result-section" class="result-section hidden" aria-live="polite">
+      <div class="result-container">
+        <div class="result-card">
+          <div class="result-header">
+            <h2 class="result-title">감성 분석 결과</h2>
+            <span id="sentiment-badge" class="sentiment-badge">분석 대기</span>
+          </div>
+
+          <div class="result-body">
+            <!-- 신뢰도 진행 바 및 백분율 표시 -->
+            <div class="confidence-box">
+              <div class="confidence-label-row">
+                <span class="confidence-label">AI 모델 신뢰도 (확신 수준)</span>
+                <span id="confidence-value" class="confidence-value">0%</span>
+              </div>
+              <div class="progress-bar-bg">
+                <div id="confidence-bar" class="progress-bar-fill" style="width: 0%;"></div>
+              </div>
+            </div>
+
+            <!-- 한국어 판단 이유 카드 -->
+            <div class="reason-box">
+              <h3 class="reason-title">💡 감성 판단 이유</h3>
+              <p id="reason-text" class="reason-text">
+                분석 결과가 여기에 표시됩니다.
+              </p>
+            </div>
+          </div>
+
+          <div class="result-footer">
+            <p class="confidence-disclaimer">
+              * 신뢰도는 AI 모델의 판단 확신 수준을 나타내는 수치이며, 통계적으로 보정된 정답 확률을 의미하지 않습니다.
+            </p>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- 서버 및 AI 오류 메시지 카드 섹션 -->
+    <section id="error-section" class="error-section hidden" aria-live="assertive">
+      <div class="error-container">
+        <div class="error-card">
+          <div class="error-icon">⚠️</div>
+          <div class="error-content">
+            <h3 class="error-title">분석을 진행할 수 없습니다</h3>
+            <p id="error-message" class="error-text">
+              오류가 발생했습니다. 잠시 후 다시 시도해 주세요.
+            </p>
+          </div>
+          <button id="retry-btn" class="pill-btn secondary-btn">다시 시도하기</button>
+        </div>
+      </div>
+    </section>
+  </main>
+
+  <!-- 하단 푸터 안내 영역 -->
+  <footer class="footer">
+    <div class="footer-container">
+      <p class="footer-text">
+        © 2026 SentimentAI. Built with Node.js, OpenAI API & Supabase.
+      </p>
+      <p class="footer-subtext">
+        본 분석 결과는 의료, 법률, 채용 등 고위험 의사결정에 사용할 수 없습니다.
+      </p>
+    </div>
+  </footer>
+
+  <!-- 메인 애플리케이션 스크립트 연결 -->
+  <script src="app.js"></script>
+</body>
+</html>
