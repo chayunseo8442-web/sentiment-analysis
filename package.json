@@ -4,7 +4,8 @@
   "description": "OpenAI와 Supabase를 활용한 텍스트 감성 분석 웹 애플리케이션",
   "main": "api/analyze.js",
   "scripts": {
-    "start": "node server.js"
+    "start": "node server.js",
+    "build": "echo 'Build completed'"
   },
   "keywords": [
     "sentiment-analysis",
