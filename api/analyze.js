@@ -105,7 +105,7 @@ module.exports = async function handler(req, res) {
     }
 
     // 4. OpenAI API 호출 (구조화된 JSON 응답 요구)
-    const MODEL_NAME = 'gpt-4o-mini';
+    const MODEL_NAME = 'gpt-4o';
     let aiRawResponse;
 
     try {
